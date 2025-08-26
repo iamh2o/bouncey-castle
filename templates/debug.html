@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Debug Bouncey Castle</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    textarea { width: 100%; height: 300px; }
+    iframe { width: 100%; height: 300px; border: 1px solid #ccc; display: none; }
+  </style>
+  <script>
+    function toggle() {
+      const raw = document.getElementById('raw');
+      const frame = document.getElementById('frame');
+      if (raw.style.display === 'none') {
+        raw.style.display = 'block';
+        frame.style.display = 'none';
+      } else {
+        raw.style.display = 'none';
+        frame.style.display = 'block';
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>Debug info for {{ target_url }}</h1>
+  <h2>Status</h2>
+  <p>Status code: {{ status_code }}</p>
+  {% if error %}<p>Error: {{ error }}</p>{% endif %}
+  <h2>Headers</h2>
+  <pre>{{ headers | tojson(indent=2) }}</pre>
+  <button onclick="toggle()">Display raw / Render HTML</button>
+  <textarea id="raw">{{ body }}</textarea>
+  <iframe id="frame"></iframe>
+  <script>
+    document.getElementById('frame').srcdoc = document.getElementById('raw').value;
+  </script>
+</body>
+</html>
