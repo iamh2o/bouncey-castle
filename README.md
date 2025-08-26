@@ -9,6 +9,8 @@ Bouncey Castle is a tiny web service that "bounces" the content from another URL
 
 ## Local development
 ```bash
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
 conda env create -f environment.yml
 conda activate bouncey-castle
 python app.py
