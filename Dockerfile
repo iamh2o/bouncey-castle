@@ -9,7 +9,9 @@ RUN curl -sSLo /tmp/miniconda.sh https://repo.anaconda.com/miniconda/Miniconda3-
 ENV PATH="/opt/conda/bin:${PATH}"
 
 COPY environment.yml /tmp/environment.yml
-RUN conda env create -f /tmp/environment.yml
+RUN conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main && \
+    conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r && \
+    conda env create -f /tmp/environment.yml
 ENV PATH="/opt/conda/envs/bouncey-castle/bin:${PATH}"
 
 WORKDIR /app
