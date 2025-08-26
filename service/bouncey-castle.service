@@ -1,0 +1,13 @@
+[Unit]
+Description=Bouncey Castle web service
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/bouncey-castle
+Environment="PATH=/opt/conda/envs/bouncey-castle/bin"
+ExecStart=/opt/conda/envs/bouncey-castle/bin/gunicorn -b 127.0.0.1:8000 app:app
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

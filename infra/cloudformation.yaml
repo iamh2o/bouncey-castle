@@ -1,0 +1,54 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Deploy Bouncey Castle service on Ubuntu 22.04
+
+Parameters:
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Name of an existing KeyPair to enable SSH
+  UbuntuAmiId:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/canonical/ubuntu/server/22.04/stable/current/amd64/hvm/ebs-gp2/ami-id
+
+Resources:
+  BounceySecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH and HTTP/S
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          CidrIp: 0.0.0.0/0
+
+  BounceyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      InstanceType: t3.micro
+      ImageId: !Ref UbuntuAmiId
+      SecurityGroupIds:
+        - !Ref BounceySecurityGroup
+      KeyName: !Ref KeyName
+      UserData: !Base64 |
+        #!/bin/bash
+        apt-get update
+        apt-get install -y git
+        cd /opt
+        git clone https://github.com/OWNER/bouncey-castle.git
+        cd bouncey-castle
+        bash deploy.sh
+
+Outputs:
+  InstanceId:
+    Description: Instance Id of the created EC2 instance
+    Value: !Ref BounceyInstance
+  PublicDNS:
+    Description: Public DNS of the instance
+    Value: !GetAtt BounceyInstance.PublicDnsName

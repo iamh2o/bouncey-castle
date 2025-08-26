@@ -1,0 +1,9 @@
+name: bouncey-castle
+channels:
+  - defaults
+dependencies:
+  - python=3.10
+  - flask
+  - requests
+  - gunicorn
+  - pytest
