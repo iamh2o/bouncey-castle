@@ -4,7 +4,7 @@ Bouncey Castle is a tiny web service that "bounces" the content from another URL
 
 ## Features
 - Homepage explaining how to use the service
-- `bounc_url` parameter fetches and returns remote content
+- `bounce_url` parameter fetches and returns remote content
 - Optional `debug=1` parameter shows status, headers and the returned HTML in a toggleable view
 
 ## Local development
@@ -50,5 +50,5 @@ See `infra/cloudformation.yaml` for a reproducible AWS setup.
 ## Example
 Bouncing a humorous image:
 ```
-https://<your-domain>/?bounc_url=https://http.cat/418&debug=1
+https://<your-domain>/?bounce_url=https://http.cat/418&debug=1
 ```
