@@ -13,7 +13,7 @@ def is_truthy(value: str) -> bool:
 
 @app.route("/")
 def index():
-    target_url = request.args.get("bounc_url")
+    target_url = request.args.get("bounce_url")
     debug = request.args.get("debug", "false")
     if not target_url:
         return render_template("index.html")
